@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Dong Jingjing&#39;s Blog  | Typora Math</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.31-DEV" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    <link href='http://blog.dongjingjing.com/dist/main.css' rel='stylesheet' type="text/css" />
+    
+      
+    
+
+    
+
+    <meta property="og:title" content="Typora Math" />
+<meta property="og:description" content="介绍 MathJax是用来在浏览器上渲染数学公式的Javascript库，使用简单灵活，只需要引入MathJax脚本就可以将网页中的MathML、TeX/LaTeX、AsciiMath语言转换为数学公式来显示，并且生成的数学公式仅使用了CSS、Web字体以及SVG等技术（没有使用位图），因此生成的数据公式是支持缩放的。
+安装 要想使用MathJax，既可将脚本下载到自己的主机并集成进项目中，也可以通过MathJax官方提供的CDN来进行集成。使用CDN的好处在于，可以让用户快速的加载脚本，并可以及时的使用到最新版本的MathJax。集成MathJax官方CDN十分简单，只需要将下面的代码添加到项目中：
+&lt;script type=&quot;text/javascript&quot; async src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML&quot;&gt; &lt;/script&gt;  其中URL参数config=TeX-MML-AM_CHTML用来配置MathJax行为，这里的意思是：识别页面中的TeX/LaTeX和MathML以及AsciiMath语法，将其输出为HTML和CSS以显示数学公式。想要对MathJax进行更多配置，请参见MathJax官网。
+通过上面的配置，生成的数学公式会附带一个菜单，用户可以通过该菜单查看数学公式源码，进行语言偏好设置等，只要在数学公式上右击，就可以弹出如下菜单：
+
+插入TeX/LaTeX Tex/LaTeX为了区别于普通文本，使用了特殊的定界符来标识公式开始和结束位置，并且数学公式有两种显示方式：一种是行内的（in-line），即公式嵌入到文本行内；另一种是区块的（displayed），即独立成行显示公式。这两种显示方式分别使用不同的定界符用来标识，MathJax默认使用$$或者\[作为区块公式的开始定界符，区块公式相应的结束定界符为$$和\]，默认使用\(和\)来作为行内公式的开始和结束定界符。想要修改默认的定界符配置，需要在页面中插入类似下面的代码：
+&lt;script type=&quot;text/x-mathjax-config&quot;&gt; // 配置$...$和\(...\)作为行内公式定界符 MathJax.Hub.Config({ tex2jax: {inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]]} }); &lt;/script&gt;  然后就可以在页面的任意位置插入用定界符包裹的TeX/LaTeX内容，MathJax会在载入页面时识别页面的TeX/LaTeX内容并将其转换为输出内容以显示数学公式。
+Tex/LaTeX语法 速查手册  Detexify  Detexify是一个LaTeX手写字符识别应用。应用会根据用户输入的手写字符，给出相应的LaTeX符号，这样使得用户在知道了LaTeX符号的大概外观后就可以迅速查询到对应的语法。十分好用，请访问：http://detexify.kirelabs.org/classify.html
+ 组  上下标等语法会作用于接下来的组，组指的是单个字符或者用{...}包围着的任意公式内容。也就是说10^10中的^只会将之后的1而不是10当成下一个组，而10^{10}中的^则将10当成下一个组，同样x_i^2和x_{i^2}不一样，{x^y}^z和x^{y^z}不一样
+ 上下标  在符号_之后下一个组的内容，将作为符号_之前内容的下标；同理在符号^之后下一个组的内容，将作为符号^之前内容的上标
+ 括号  小括号和方括号可以直接使用键盘上的符号()和[]，大括号通过\{...\}来输入。要注意的是，这样输入的括号不会随着公式的大小而自动伸缩，要想输入自动伸缩的括号，需要使用如下语法：\left(...\right)和\left[...\right]以及\left\{...\right\} 。此外\left...\right可以用来修饰其它成对符号，例如：绝对值符号|，向量取模符号\vert和\Vert，三角括号\langle...\rangle，取顶符号\lceil...\rceil，取底符号\lfloor...\rfloor，如果公式内部也含有需要自动缩放的内容就用\middle来修饰，例如：\middle|。并且可以通过符号.来隐藏配对符，\left.x \right\}将仅显示右侧大括号
+ 求和求积分符号  \sum表示求和符号，\int表示求积符号，\prod表示连乘符号，\bigcup表示求所有并集，\bigcap表示求所有交集，\iint表示重积分符号。以上符号后面的下标符号_标识下一个组内容是符号的下界，上标符号^标识下一个组内容是符号的上界，例如：\sum_{i=0}^\infty i表示对i从0到无限求和
+ 分数  可以用两种方式来表示分数。\frac会将紧跟在后面的两个组分别当作分子和分母，例如：\frac ab和\frac {a}{b}都表示a/b。此外可以直接在组内应用\over来表示分数，例如：{a \over b}也表示a/b。当在行内表示分数时，因为分数长的比较高，所以为了适应行高会自动缩放，要想强制分数以行内或者区块风格显示可以使用\tfrac和\dfrac。还有一种使用上下标表示分数的技巧：^3/_7或者^3\!/_7
+ 根号  二次根号示例：\sqrt{x}，三次根号示例：\sqrt[3]{x}。或者对于复杂公式建议使用组形式表示根号：{x}^{1/3}
+ 排列组合  {n \choose k}用来表示从n中选取k个元素。或者使用语法\binom{n}{k}" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://blog.dongjingjing.com/post/typora-math/" />
+
+
+
+<meta property="article:published_time" content="2017-10-17T12:17:56&#43;08:00"/>
+
+<meta property="article:modified_time" content="2017-10-17T12:17:56&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="Typora Math">
+<meta itemprop="description" content="介绍 MathJax是用来在浏览器上渲染数学公式的Javascript库，使用简单灵活，只需要引入MathJax脚本就可以将网页中的MathML、TeX/LaTeX、AsciiMath语言转换为数学公式来显示，并且生成的数学公式仅使用了CSS、Web字体以及SVG等技术（没有使用位图），因此生成的数据公式是支持缩放的。
+安装 要想使用MathJax，既可将脚本下载到自己的主机并集成进项目中，也可以通过MathJax官方提供的CDN来进行集成。使用CDN的好处在于，可以让用户快速的加载脚本，并可以及时的使用到最新版本的MathJax。集成MathJax官方CDN十分简单，只需要将下面的代码添加到项目中：
+&lt;script type=&quot;text/javascript&quot; async src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML&quot;&gt; &lt;/script&gt;  其中URL参数config=TeX-MML-AM_CHTML用来配置MathJax行为，这里的意思是：识别页面中的TeX/LaTeX和MathML以及AsciiMath语法，将其输出为HTML和CSS以显示数学公式。想要对MathJax进行更多配置，请参见MathJax官网。
+通过上面的配置，生成的数学公式会附带一个菜单，用户可以通过该菜单查看数学公式源码，进行语言偏好设置等，只要在数学公式上右击，就可以弹出如下菜单：
+
+插入TeX/LaTeX Tex/LaTeX为了区别于普通文本，使用了特殊的定界符来标识公式开始和结束位置，并且数学公式有两种显示方式：一种是行内的（in-line），即公式嵌入到文本行内；另一种是区块的（displayed），即独立成行显示公式。这两种显示方式分别使用不同的定界符用来标识，MathJax默认使用$$或者\[作为区块公式的开始定界符，区块公式相应的结束定界符为$$和\]，默认使用\(和\)来作为行内公式的开始和结束定界符。想要修改默认的定界符配置，需要在页面中插入类似下面的代码：
+&lt;script type=&quot;text/x-mathjax-config&quot;&gt; // 配置$...$和\(...\)作为行内公式定界符 MathJax.Hub.Config({ tex2jax: {inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]]} }); &lt;/script&gt;  然后就可以在页面的任意位置插入用定界符包裹的TeX/LaTeX内容，MathJax会在载入页面时识别页面的TeX/LaTeX内容并将其转换为输出内容以显示数学公式。
+Tex/LaTeX语法 速查手册  Detexify  Detexify是一个LaTeX手写字符识别应用。应用会根据用户输入的手写字符，给出相应的LaTeX符号，这样使得用户在知道了LaTeX符号的大概外观后就可以迅速查询到对应的语法。十分好用，请访问：http://detexify.kirelabs.org/classify.html
+ 组  上下标等语法会作用于接下来的组，组指的是单个字符或者用{...}包围着的任意公式内容。也就是说10^10中的^只会将之后的1而不是10当成下一个组，而10^{10}中的^则将10当成下一个组，同样x_i^2和x_{i^2}不一样，{x^y}^z和x^{y^z}不一样
+ 上下标  在符号_之后下一个组的内容，将作为符号_之前内容的下标；同理在符号^之后下一个组的内容，将作为符号^之前内容的上标
+ 括号  小括号和方括号可以直接使用键盘上的符号()和[]，大括号通过\{...\}来输入。要注意的是，这样输入的括号不会随着公式的大小而自动伸缩，要想输入自动伸缩的括号，需要使用如下语法：\left(...\right)和\left[...\right]以及\left\{...\right\} 。此外\left...\right可以用来修饰其它成对符号，例如：绝对值符号|，向量取模符号\vert和\Vert，三角括号\langle...\rangle，取顶符号\lceil...\rceil，取底符号\lfloor...\rfloor，如果公式内部也含有需要自动缩放的内容就用\middle来修饰，例如：\middle|。并且可以通过符号.来隐藏配对符，\left.x \right\}将仅显示右侧大括号
+ 求和求积分符号  \sum表示求和符号，\int表示求积符号，\prod表示连乘符号，\bigcup表示求所有并集，\bigcap表示求所有交集，\iint表示重积分符号。以上符号后面的下标符号_标识下一个组内容是符号的下界，上标符号^标识下一个组内容是符号的上界，例如：\sum_{i=0}^\infty i表示对i从0到无限求和
+ 分数  可以用两种方式来表示分数。\frac会将紧跟在后面的两个组分别当作分子和分母，例如：\frac ab和\frac {a}{b}都表示a/b。此外可以直接在组内应用\over来表示分数，例如：{a \over b}也表示a/b。当在行内表示分数时，因为分数长的比较高，所以为了适应行高会自动缩放，要想强制分数以行内或者区块风格显示可以使用\tfrac和\dfrac。还有一种使用上下标表示分数的技巧：^3/_7或者^3\!/_7
+ 根号  二次根号示例：\sqrt{x}，三次根号示例：\sqrt[3]{x}。或者对于复杂公式建议使用组形式表示根号：{x}^{1/3}
+ 排列组合  {n \choose k}用来表示从n中选取k个元素。或者使用语法\binom{n}{k}">
+
+
+<meta itemprop="datePublished" content="2017-10-17T12:17:56&#43;08:00" />
+<meta itemprop="dateModified" content="2017-10-17T12:17:56&#43;08:00" />
+<meta itemprop="wordCount" content="312">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Typora Math"/>
+<meta name="twitter:description" content="介绍 MathJax是用来在浏览器上渲染数学公式的Javascript库，使用简单灵活，只需要引入MathJax脚本就可以将网页中的MathML、TeX/LaTeX、AsciiMath语言转换为数学公式来显示，并且生成的数学公式仅使用了CSS、Web字体以及SVG等技术（没有使用位图），因此生成的数据公式是支持缩放的。
+安装 要想使用MathJax，既可将脚本下载到自己的主机并集成进项目中，也可以通过MathJax官方提供的CDN来进行集成。使用CDN的好处在于，可以让用户快速的加载脚本，并可以及时的使用到最新版本的MathJax。集成MathJax官方CDN十分简单，只需要将下面的代码添加到项目中：
+&lt;script type=&quot;text/javascript&quot; async src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML&quot;&gt; &lt;/script&gt;  其中URL参数config=TeX-MML-AM_CHTML用来配置MathJax行为，这里的意思是：识别页面中的TeX/LaTeX和MathML以及AsciiMath语法，将其输出为HTML和CSS以显示数学公式。想要对MathJax进行更多配置，请参见MathJax官网。
+通过上面的配置，生成的数学公式会附带一个菜单，用户可以通过该菜单查看数学公式源码，进行语言偏好设置等，只要在数学公式上右击，就可以弹出如下菜单：
+
+插入TeX/LaTeX Tex/LaTeX为了区别于普通文本，使用了特殊的定界符来标识公式开始和结束位置，并且数学公式有两种显示方式：一种是行内的（in-line），即公式嵌入到文本行内；另一种是区块的（displayed），即独立成行显示公式。这两种显示方式分别使用不同的定界符用来标识，MathJax默认使用$$或者\[作为区块公式的开始定界符，区块公式相应的结束定界符为$$和\]，默认使用\(和\)来作为行内公式的开始和结束定界符。想要修改默认的定界符配置，需要在页面中插入类似下面的代码：
+&lt;script type=&quot;text/x-mathjax-config&quot;&gt; // 配置$...$和\(...\)作为行内公式定界符 MathJax.Hub.Config({ tex2jax: {inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]]} }); &lt;/script&gt;  然后就可以在页面的任意位置插入用定界符包裹的TeX/LaTeX内容，MathJax会在载入页面时识别页面的TeX/LaTeX内容并将其转换为输出内容以显示数学公式。
+Tex/LaTeX语法 速查手册  Detexify  Detexify是一个LaTeX手写字符识别应用。应用会根据用户输入的手写字符，给出相应的LaTeX符号，这样使得用户在知道了LaTeX符号的大概外观后就可以迅速查询到对应的语法。十分好用，请访问：http://detexify.kirelabs.org/classify.html
+ 组  上下标等语法会作用于接下来的组，组指的是单个字符或者用{...}包围着的任意公式内容。也就是说10^10中的^只会将之后的1而不是10当成下一个组，而10^{10}中的^则将10当成下一个组，同样x_i^2和x_{i^2}不一样，{x^y}^z和x^{y^z}不一样
+ 上下标  在符号_之后下一个组的内容，将作为符号_之前内容的下标；同理在符号^之后下一个组的内容，将作为符号^之前内容的上标
+ 括号  小括号和方括号可以直接使用键盘上的符号()和[]，大括号通过\{...\}来输入。要注意的是，这样输入的括号不会随着公式的大小而自动伸缩，要想输入自动伸缩的括号，需要使用如下语法：\left(...\right)和\left[...\right]以及\left\{...\right\} 。此外\left...\right可以用来修饰其它成对符号，例如：绝对值符号|，向量取模符号\vert和\Vert，三角括号\langle...\rangle，取顶符号\lceil...\rceil，取底符号\lfloor...\rfloor，如果公式内部也含有需要自动缩放的内容就用\middle来修饰，例如：\middle|。并且可以通过符号.来隐藏配对符，\left.x \right\}将仅显示右侧大括号
+ 求和求积分符号  \sum表示求和符号，\int表示求积符号，\prod表示连乘符号，\bigcup表示求所有并集，\bigcap表示求所有交集，\iint表示重积分符号。以上符号后面的下标符号_标识下一个组内容是符号的下界，上标符号^标识下一个组内容是符号的上界，例如：\sum_{i=0}^\infty i表示对i从0到无限求和
+ 分数  可以用两种方式来表示分数。\frac会将紧跟在后面的两个组分别当作分子和分母，例如：\frac ab和\frac {a}{b}都表示a/b。此外可以直接在组内应用\over来表示分数，例如：{a \over b}也表示a/b。当在行内表示分数时，因为分数长的比较高，所以为了适应行高会自动缩放，要想强制分数以行内或者区块风格显示可以使用\tfrac和\dfrac。还有一种使用上下标表示分数的技巧：^3/_7或者^3\!/_7
+ 根号  二次根号示例：\sqrt{x}，三次根号示例：\sqrt[3]{x}。或者对于复杂公式建议使用组形式表示根号：{x}^{1/3}
+ 排列组合  {n \choose k}用来表示从n中选取k个元素。或者使用语法\binom{n}{k}"/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="http://blog.dongjingjing.com/" class="f3 fw2 hover-white no-underline white-90 dib">
+      Dong Jingjing&#39;s Blog
+    </a>
+    <div class="flex-l items-center">
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/post/" title="Posts page">
+              Posts
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/slides/" title="Slides page">
+              Slides
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  <div class="flex-l mt2 mw8 center">
+    <article class="center cf pv5 ph3 ph4-ns mw7">
+      <p class="f6 b helvetica tracked">
+        
+        POST
+      </p>
+      <h1 class="f1 athelas">
+        Typora Math
+      </h1>
+        
+        
+      <time class="f6 mv4 dib tracked" datetime="2017-10-17T12:17:56&#43;08:00">
+        October 17, 2017
+      </time>
+      <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray">
+        <h2 id="介绍">介绍</h2>
+
+<p><a href="https://www.mathjax.org/">MathJax</a>是用来在浏览器上渲染数学公式的Javascript库，使用简单灵活，只需要引入MathJax脚本就可以将网页中的<a href="https://en.wikipedia.org/wiki/MathML">MathML</a>、<a href="https://en.wikipedia.org/wiki/TeX">TeX/LaTeX</a>、<a href="http://asciimath.org/">AsciiMath</a>语言转换为数学公式来显示，并且生成的数学公式仅使用了CSS、Web字体以及SVG等技术（没有使用位图），因此生成的数据公式是支持缩放的。</p>
+
+<h2 id="安装">安装</h2>
+
+<p>要想使用MathJax，既可将脚本下载到自己的主机并集成进项目中，也可以通过MathJax官方提供的CDN来进行集成。使用CDN的好处在于，可以让用户快速的加载脚本，并可以及时的使用到最新版本的MathJax。集成MathJax官方CDN十分简单，只需要将下面的代码添加到项目中：</p>
+
+<pre><code class="language-html">&lt;script type=&quot;text/javascript&quot; async
+  src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML&quot;&gt;
+&lt;/script&gt;
+</code></pre>
+
+<p>其中URL参数<code>config=TeX-MML-AM_CHTML</code>用来配置MathJax行为，这里的意思是：识别页面中的TeX/LaTeX和MathML以及AsciiMath语法，将其输出为HTML和CSS以显示数学公式。想要对MathJax进行更多配置，请参见MathJax官网。</p>
+
+<p>通过上面的配置，生成的数学公式会附带一个菜单，用户可以通过该菜单查看数学公式源码，进行语言偏好设置等，只要在数学公式上右击，就可以弹出如下菜单：</p>
+
+<p><figure><img src="mathmenu.png" alt=""></figure></p>
+
+<h2 id="插入texlatex">插入TeX/LaTeX</h2>
+
+<p>Tex/LaTeX为了区别于普通文本，使用了特殊的定界符来标识公式开始和结束位置，并且数学公式有两种显示方式：一种是行内的（in-line），即公式嵌入到文本行内；另一种是区块的（displayed），即独立成行显示公式。这两种显示方式分别使用不同的定界符用来标识，MathJax默认使用<code>$$</code>或者<code>\[</code>作为区块公式的开始定界符，区块公式相应的结束定界符为<code>$$</code>和<code>\]</code>，默认使用<code>\(</code>和<code>\)</code>来作为行内公式的开始和结束定界符。想要修改默认的定界符配置，需要在页面中插入类似下面的代码：</p>
+
+<pre><code class="language-html">&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
+// 配置$...$和\(...\)作为行内公式定界符
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+&lt;/script&gt;
+</code></pre>
+
+<p>然后就可以在页面的任意位置插入用定界符包裹的TeX/LaTeX内容，MathJax会在载入页面时识别页面的TeX/LaTeX内容并将其转换为输出内容以显示数学公式。</p>
+
+<h2 id="texlatex语法">Tex/LaTeX语法</h2>
+
+<h3 id="速查手册">速查手册</h3>
+
+<ul>
+<li><a href="http://detexify.kirelabs.org/classify.html">Detexify</a></li>
+</ul>
+
+<p>Detexify是一个LaTeX手写字符识别应用。应用会根据用户输入的手写字符，给出相应的LaTeX符号，这样使得用户在知道了LaTeX符号的大概外观后就可以迅速查询到对应的语法。十分好用，请访问：<a href="http://detexify.kirelabs.org/classify.html">http://detexify.kirelabs.org/classify.html</a></p>
+
+<ul>
+<li>组</li>
+</ul>
+
+<p>上下标等语法会作用于接下来的组，组指的是单个字符或者用<code>{</code>...<code>}</code>包围着的任意公式内容。也就是说<code>10^10</code>中的<code>^</code>只会将之后的<code>1</code>而不是<code>10</code>当成下一个组，而<code>10^{10}</code>中的<code>^</code>则将<code>10</code>当成下一个组，同样<code>x_i^2</code>和<code>x_{i^2}</code>不一样，<code>{x^y}^z</code>和<code>x^{y^z}</code>不一样</p>
+
+<ul>
+<li>上下标</li>
+</ul>
+
+<p>在符号<code>_</code>之后下一个组的内容，将作为符号<code>_</code>之前内容的下标；同理在符号<code>^</code>之后下一个组的内容，将作为符号<code>^</code>之前内容的上标</p>
+
+<ul>
+<li>括号</li>
+</ul>
+
+<p>小括号和方括号可以直接使用键盘上的符号<code>()</code>和<code>[]</code>，大括号通过<code>\{</code>...<code>\}</code>来输入。要注意的是，这样输入的括号不会随着公式的大小而自动伸缩，要想输入自动伸缩的括号，需要使用如下语法：<code>\left(</code>...<code>\right)</code>和<code>\left[</code>...<code>\right]</code>以及<code>\left\{</code>...<code>\right\}</code> 。此外<code>\left</code>...<code>\right</code>可以用来修饰其它成对符号，例如：绝对值符号<code>|</code>，向量取模符号<code>\vert</code>和<code>\Vert</code>，三角括号<code>\langle</code>...<code>\rangle</code>，取顶符号<code>\lceil</code>...<code>\rceil</code>，取底符号<code>\lfloor</code>...<code>\rfloor</code>，如果公式内部也含有需要自动缩放的内容就用<code>\middle</code>来修饰，例如：<code>\middle|</code>。并且可以通过符号<code>.</code>来隐藏配对符，<code>\left.x \right\}</code>将仅显示右侧大括号</p>
+
+<ul>
+<li>求和求积分符号</li>
+</ul>
+
+<p><code>\sum</code>表示求和符号，<code>\int</code>表示求积符号，<code>\prod</code>表示连乘符号，<code>\bigcup</code>表示求所有并集，<code>\bigcap</code>表示求所有交集，<code>\iint</code>表示重积分符号。以上符号后面的下标符号<code>_</code>标识下一个组内容是符号的下界，上标符号<code>^</code>标识下一个组内容是符号的上界，例如：<code>\sum_{i=0}^\infty i</code>表示对<code>i</code>从0到无限求和</p>
+
+<ul>
+<li>分数</li>
+</ul>
+
+<p>可以用两种方式来表示分数。<code>\frac</code>会将紧跟在后面的两个组分别当作分子和分母，例如：<code>\frac ab</code>和<code>\frac {a}{b}</code>都表示<code>a/b</code>。此外可以直接在组内应用<code>\over</code>来表示分数，例如：<code>{a \over b}</code>也表示<code>a/b</code>。当在行内表示分数时，因为分数长的比较高，所以为了适应行高会自动缩放，要想强制分数以行内或者区块风格显示可以使用<code>\tfrac</code>和<code>\dfrac</code>。还有一种使用上下标表示分数的技巧：<code>^3/_7</code>或者<code>^3\!/_7</code></p>
+
+<ul>
+<li>根号</li>
+</ul>
+
+<p>二次根号示例：<code>\sqrt{x}</code>，三次根号示例：<code>\sqrt[3]{x}</code>。或者对于复杂公式建议使用组形式表示根号：<code>{x}^{1/3}</code></p>
+
+<ul>
+<li>排列组合</li>
+</ul>
+
+<p><code>{n \choose k}</code>用来表示从n中选取k个元素。或者使用语法<code>\binom{n}{k}</code></p>
+
+<ul>
+<li>省略号</li>
+</ul>
+
+<p>在表示枚举序列或者连续相加或者相乘之类公式时，一般有省略号代替中间部分，位于公式底部位置省略号表示为<code>\ldots</code>，位于公式中部的省略号表示为<code>\cdots</code></p>
+
+<ul>
+<li>极限符号</li>
+</ul>
+
+<p>极限符号示例：<code>\lim_{x \to 0}</code>表示<code>x-&gt;0</code>的极限式</p>
+
+<ul>
+<li>帽子符号</li>
+</ul>
+
+<p>单个字符使用<code>\hat</code>尖帽子修饰，公式字符较多使用<code>\widehat</code>尖帽子修饰。相应的可以使用：<code>\bar</code>添加平头帽子，<code>\overline</code>添加长平头帽子，<code>\vec</code>添加向量帽子，<code>\overrightarrow</code>添加长向量帽子，<code>\overleftrightarrow</code>添加双箭头帽子，<code>\dot</code>添加单点帽子，<code>\ddot</code>添加双点帽子</p>
+
+<ul>
+<li>转义符</li>
+</ul>
+
+<p>MathJax中<code>\</code>充当转义符，要想输出<code>$</code>，<code>{</code>，<code>_</code>等具有特殊语义的符号，需要在其前面添加转义符<code>\$</code>，<code>\{</code>，<code>\_</code>。此外要想输出<code>\</code>本身，需要使用<code>\backslash</code>，而不能使用<code>\\</code>，因为<code>\\</code>用来表示换行符</p>
+
+<ul>
+<li>颜色修饰</li>
+</ul>
+
+<p>公式都可以被颜色语法修饰：<code>{\color{red}content}</code></p>
+
+<ul>
+<li>空白符</li>
+</ul>
+
+<p>MathJax会忽略公式中的空白，不管公式中各个组内容之间含有多少空格，在转换为数学公式后都会丢失，为了强制在公式中插入空白，需要特定语法。<code>\,</code>表示窄空白，<code>\;</code>表示较宽的空白，<code>\quad</code>和<code>\qquad</code>表示更宽的空白。此外也可以使用<code>\text {some plain text}</code>语法来插入格式不会被改变的文本</p>
+
+<h3 id="例子">例子</h3>
+
+<p>集合符号：<code>\forall x \in X, \quad \exists y \leq \epsilon</code></p>
+
+<p><figure><img src="forall_x_exists_y.png" alt=""></figure></p>
+
+<p>希腊字母：<code>\alpha, \Alpha, \beta, \Beta, \gamma, \Gamma, \pi, \Pi, \phi, \varphi, \mu, \Phi</code></p>
+
+<p><figure><img src="greek_example_letters.png" alt=""></figure></p>
+
+<p>三角函数：<code>\cos (2\theta) = \cos^2 \theta - \sin^2 \theta</code></p>
+
+<p><figure><img src="cos_2theta.png" alt=""></figure></p>
+
+<p>极限：<code>\lim_{x \to \infty} \exp(-x) = 0</code></p>
+
+<p><figure><img src="limit_exp.png" alt=""></figure></p>
+
+<p>求余：<code>a \bmod b</code></p>
+
+<p><figure><img src="bmod_example.png" alt=""></figure></p>
+
+<p>求余：<code>x \equiv a \pmod{b}</code></p>
+
+<p><figure><img src="pmod_example.png" alt=""></figure></p>
+
+<p>多项式：<code>k_{n+1} = n^2 + k_n^2 - k_{n-1}</code></p>
+
+<p><figure><img src="power_example.png" alt=""></figure></p>
+
+<p>组合符号：<code>\frac{n!}{k!(n-k)!} = \binom{n}{k}</code></p>
+
+<p><figure><img src="fraction_example.png" alt=""></figure></p>
+
+<p>嵌套分数：</p>
+
+<pre><code class="language-latex">\begin{equation}
+  x = a_0 + \cfrac{1}{a_1 
+          + \cfrac{1}{a_2 
+          + \cfrac{1}{a_3 + \cfrac{1}{a_4} } } }
+\end{equation}
+</code></pre>
+
+<p><figure><img src="continued_fraction.png" alt=""></figure></p>
+
+<p>竖乘：</p>
+
+<pre><code class="language-latex">\begin{equation}
+\frac{
+    \begin{array}[b]{r}
+      \left( x_1 x_2 \right)\\
+      \times \left( x'_1 x'_2 \right)
+    \end{array}
+  }{
+    \left( y_1y_2y_3y_4 \right)
+  }
+\end{equation}
+</code></pre>
+
+<p><figure><img src="multiplication_example.png" alt=""></figure></p>
+
+<p>根号：<code>\sqrt[n]{1+x+x^2+x^3+\dots+x^n}</code></p>
+
+<p><figure><img src="root_example.png" alt=""></figure></p>
+
+<p>求和符号：<code>\sum_{i=1}^{10} t_i</code></p>
+
+<p><figure><img src="int_example_1.png" alt=""></figure></p>
+
+<p>区块风格显示求和符：<code>\displaystyle\sum_{i=1}^{10} t_i</code></p>
+
+<p><figure><img src="int_example_2.png" alt=""></figure></p>
+
+<p>积分符号：<code>\int_0^\infty \mathrm{e}^{-x}\,\mathrm{d}x</code></p>
+
+<p><figure><img src="int_example_3.png" alt=""></figure></p>
+
+<p>求和符多个子条件：</p>
+
+<pre><code class="language-latex">\sum_{\substack{
+   0&lt;i&lt;m \\
+   0&lt;j&lt;n
+  }} 
+ P(i,j)
+</code></pre>
+
+<p><figure><img src="int_example_4.png" alt=""></figure></p>
+
+<p>积分上下限表示：<code>\int\limits_a^b</code></p>
+
+<p><figure><img src="int_example_5.png" alt=""></figure></p>
+
+<p>各种括号语法：</p>
+
+<pre><code class="language-latex">( a ), [ b ], \{ c \}, | d |, \| e \|,
+\langle f \rangle, \lfloor g \rfloor,
+\lceil h \rceil, \ulcorner i \urcorner
+</code></pre>
+
+<p><figure><img src="bracket_example.png" alt=""></figure></p>
+
+<p>自动调整大小请使用<code>\left</code>，<code>\middle</code>，<code>\right</code>），手动调整括号大小如下：<code>( \big( \Big( \bigg( \Bigg(</code></p>
+
+<p><figure><img src="manual_scale.png" alt=""></figure></p>
+
+<p>矩阵：</p>
+
+<pre><code class="language-latex">\[
+ \begin{matrix}
+  a &amp; b &amp; c \\
+  d &amp; e &amp; f \\
+  g &amp; h &amp; i
+ \end{matrix}
+\]
+</code></pre>
+
+<p><figure><img src="matrix_example_1.png" alt=""></figure></p>
+
+<pre><code class="language-latex">A_{m,n} = 
+ \begin{pmatrix}
+  a_{1,1} &amp; a_{1,2} &amp; \cdots &amp; a_{1,n} \\
+  a_{2,1} &amp; a_{2,2} &amp; \cdots &amp; a_{2,n} \\
+  \vdots  &amp; \vdots  &amp; \ddots &amp; \vdots  \\
+  a_{m,1} &amp; a_{m,2} &amp; \cdots &amp; a_{m,n} 
+ \end{pmatrix}
+</code></pre>
+
+<p><figure><img src="matrix_example_2.png" alt=""></figure></p>
+
+<p>行内矩阵：<code>\bigl(\begin{smallmatrix}a&amp;b \\ c&amp;d\end{smallmatrix}\bigr)</code></p>
+
+<p><figure><img src="inline_matrix.png" alt=""></figure></p>
+
+<p>格式化文本：<code>\text{raw text} \, \textrm{roman text} \, \textit{itaic text} \, \textbf{bold text}</code></p>
+
+<p><figure><img src="formatted_text.png" alt=""></figure></p>
+
+<h3 id="常用字体">常用字体</h3>
+
+<p>注：字体语法用来修饰接下来的一个组内容</p>
+
+<table>
+<thead>
+<tr>
+<th>字体名</th>
+<th>字体语法</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>blackboard bold</td>
+<td><code>\mathbb</code>或<code>\Bbb</code></td>
+</tr>
+
+<tr>
+<td>boldface</td>
+<td><code>\mathbf</code></td>
+</tr>
+
+<tr>
+<td>typewriter</td>
+<td><code>\math</code></td>
+</tr>
+
+<tr>
+<td>roman</td>
+<td><code>\mathrm</code></td>
+</tr>
+
+<tr>
+<td>sans-serif</td>
+<td><code>\math</code></td>
+</tr>
+
+<tr>
+<td>calligraphic letters</td>
+<td><code>\mathcal</code></td>
+</tr>
+
+<tr>
+<td>script letters</td>
+<td><code>\mathscr</code></td>
+</tr>
+
+<tr>
+<td>Fraktur letters</td>
+<td><code>\mathfrak</code></td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="关系符号表">关系符号表</h3>
+
+<p><figure><img src="relation_symbol.png" alt=""></figure></p>
+
+<h3 id="二元操作符">二元操作符</h3>
+
+<p><figure><img src="binary_operation.png" alt=""></figure></p>
+
+<h3 id="集合逻辑操作符">集合逻辑操作符</h3>
+
+<p><figure><img src="set_logic.png" alt=""></figure></p>
+
+<h3 id="定界符">定界符</h3>
+
+<p><figure><img src="delimiters.png" alt=""></figure></p>
+
+<h3 id="希腊罗马符号">希腊罗马符号</h3>
+
+<p><figure><img src="greek_roman.png" alt=""></figure></p>
+
+<h3 id="三角函数">三角函数</h3>
+
+<p><figure><img src="sin_cos.png" alt=""></figure></p>
+
+<h3 id="点">点</h3>
+
+<p><figure><img src="dots.png" alt=""></figure></p>
+
+<h3 id="其它符号">其它符号</h3>
+
+<p><figure><img src="other_symbols.png" alt=""></figure></p>
+
+<h3 id="更多查询">更多查询</h3>
+
+<p>关于更多语法内容，请参考：<a href="https://en.wikibooks.org/wiki/LaTeX/Mathematics">https://en.wikibooks.org/wiki/LaTeX/Mathematics</a></p>
+
+      </section>
+      
+
+
+    </article>
+    <div class="ph3 mt2 mt6-ns">
+      
+
+
+
+
+
+
+
+  <div class="bg-light-gray pa3">
+    <ul>
+      <li class="list b mb3">
+        3 More Posts
+      </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/post/linear-regression/" class="link ph2 pv2 db black">
+            LINEAR REGRESSION MODELS WITH DEPENDENT OBSERVATIONS
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/post/typora/" class="link ph2 pv2 db black">
+            Typora
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/post/typora-math/" class="link ph2 pv2 db black o-50">
+            Typora Math
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/post/hugo/quick_start/" class="link ph2 pv2 db black">
+            Hugo 起步
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+    </div>
+  </div>
+
+    </main>
+    <footer class="bg-near-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://blog.dongjingjing.com/" >
+    &copy; 2017 Dong Jingjing&#39;s Blog
+  </a>
+  
+
+
+
+
+
+
+
+
+  </div>
+</footer>
+
+    <script src="http://blog.dongjingjing.com/dist/app.bundle.js" async></script>
+
+
+
+<script src='http://blog.dongjingjing.com/js/mathjax/MathJax.js?config=TeX-AMS_CHTML' async></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+  	inlineMath: [['\\(','\\)']],
+  	displayMath: [['$$','$$'], ['\\[','\\]']]
+  }
+});
+</script>
+
+
+  </body>
+</html>

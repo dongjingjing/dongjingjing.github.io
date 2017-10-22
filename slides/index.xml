@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Slides on Dong Jingjing&#39;s Blog</title>
+    <link>http://blog.dongjingjing.com/slides/</link>
+    <description>Recent content in Slides on Dong Jingjing&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 17 Oct 2017 12:17:56 +0800</lastBuildDate>
+    
+	<atom:link href="http://blog.dongjingjing.com/slides/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title></title>
+      <link>http://blog.dongjingjing.com/slides/baogao/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://blog.dongjingjing.com/slides/baogao/</guid>
+      <description>Learning experience sharing code{white-space: pre;}  var link = document.createElement( &#39;link&#39; ); link.rel = &#39;stylesheet&#39;; link.type = &#39;text/css&#39;; link.href = window.location.search.match( /print-pdf/gi ) ? &#39;reveal.js/css/print/pdf.css&#39; : &#39;reveal.js/css/print/paper.css&#39;; document.getElementsByTagName( &#39;head&#39; )[0].appendChild( link );       Learning experience sharing Jingjing Dong
+October 22, 2017
+  experience sharing  密码：lp6w
+  课堂篇 作业篇 考试篇 心态篇   课堂篇学习框架  建立假设 建模 计算：分析经济学含义   建立假设  高宏:</description>
+    </item>
+    
+  </channel>
+</rss>

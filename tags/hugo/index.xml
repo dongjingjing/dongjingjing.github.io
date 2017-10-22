@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hugo on Dong Jingjing&#39;s Blog</title>
+    <link>http://blog.dongjingjing.com/tags/hugo/</link>
+    <description>Recent content in Hugo on Dong Jingjing&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 17 Aug 2017 10:58:08 -0400</lastBuildDate>
+    
+	<atom:link href="http://blog.dongjingjing.com/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Hugo 起步</title>
+      <link>http://blog.dongjingjing.com/post/hugo/quick_start/</link>
+      <pubDate>Thu, 17 Aug 2017 10:58:08 -0400</pubDate>
+      
+      <guid>http://blog.dongjingjing.com/post/hugo/quick_start/</guid>
+      <description>简介 Hugo 是一款静态网站生成工具。如果你之前使用过 Jekyll ，那么一定不会对这类工具感到陌生。简单来说静态网站生成工具允许你以不同于传统博客系统（比如：WordPress ）的模式书写/发布内容，你可以用 Markdown 之类的文本标记语言撰写内容，然后使用静态网站生成工具将内容转换为网站形式。这里之所以说生成的网站是静态的，是由于网站内容在生成那一刻就是固定不变的了，不会像普通网站那样可以通过跟用户交互来动态生成内容。博客、文章以及技术文档等内容本来就是很少变化的，跟用户也没有交互性，因此这类站点很适合用静态网站工具来生成。
+静态网站生成工具的巨大优势在于：*书写语言灵活性带来内容创作的自由*。首先，Markdown 等标记语言本来就是通过简单的格式标记符来撰写文档的利器，使得内容创作者将精力集中在内容本身而不是内容的显示格式上；其次，用 Markdown 等标记语言书写的文档不仅仅可以通过静态网站生成工具转换为网站，利用 Pandoc 这类文档转换工具可以将其转换为 PDF 、Word 等各种格式。使用 Markdown 等标记语言创作的内容数据源，可以使用各种工具将其转换为丰富多样的格式。更进一步来说，使用标记语言创作内容，使得内容创作过程和内容展示发布过程独立开来，给予了内容创作者极大的自由空间。
+为什么选择 Hugo 而不是 Jekyll ：Hugo 简单易用、安装方便而且生成网站的速度快。我是一个懒惰而且懒惰的人，以上两点足够成为我拥抱 Hugo 的理由，或者说只是不小心入坑了，懒得再爬出来。
+安装 Hugo Hugo 支持各种操作系统而且安装方式也很多，最为简单的方法是下载一个二进制程序（要下载跟自己操作系统对应的版本），然后将程序移动到合适的位置，就可以使用了 Hugo 。虽然将该程序放在任意位置都可以，不过为了使用起来方便，通常应将其移动到操作体系环境变量 PATH 可以搜索到的位置或者将程序所在位置添加到 PATH 环境变量中。下载 Hugo 并将程序移动到 PATH 可以搜索的位置，就算安装好 Hugo 了，要注意的是 Hugo 是一个基于命令行的工具（并没有图形界面），测试 Hugo 是否安装成功，打开命令行运行以下命令：
+$ hugo version  如果成功的返回了 Hugo 的版本信息，说明安装成功。如果提示找不到 hugo 命令，说明没有将程序移动到 PATH 可以搜索到的位置。
+此外 Hugo 还可以通过操作系统的软件包管理工具来安装，比如 MacOS 可以使用 Homebrew，Windows 可以使用 Chocolatey 。如果有需要甚至可以自己编译源码进行安装，更多关于安装介绍参见[官网][]。
+创建网站 运行以下命令来创建网站</description>
+    </item>
+    
+  </channel>
+</rss>
